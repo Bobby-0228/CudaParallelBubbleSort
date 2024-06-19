@@ -1,6 +1,13 @@
-bubble_GPU_singleblock.o
-bubble_GPU_singleblock
+bubble_singleblock.o
+bubble_singleblock
 
 output_GPU_global_mem.txt
 output_GPU_shared_mem.txt
 output_CPU.txt
+
+bubble_multiblock.o
+bubble_multiblock
+
+multiblock_*.txt
+
+.vscode
