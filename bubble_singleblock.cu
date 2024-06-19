@@ -170,7 +170,7 @@ int main(int argc, char **argv){
         bubble<<<1,BLOCK,(N+20)*sizeof(float)>>>(gc,ga,N);
         cudaDeviceSynchronize();
         cudaEventRecord(stop1, 0);
-	    cudaEventSynchronize(stop1);
+	cudaEventSynchronize(stop1);
         cudaEventElapsedTime(&GPUTime1, start1, stop1);
 
         // only global memory in GPU
@@ -178,7 +178,7 @@ int main(int argc, char **argv){
         bubble_global<<<1,BLOCK>>>(gd,ga,N);
         cudaDeviceSynchronize();
         cudaEventRecord(stop2, 0);
-	    cudaEventSynchronize(stop2);
+	cudaEventSynchronize(stop2);
         cudaEventElapsedTime(&GPUTime2, start2, stop2);
 
         // host
