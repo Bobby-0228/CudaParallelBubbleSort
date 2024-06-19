@@ -11,9 +11,6 @@
 #define GRID   1
 #define BLOCK  (N/2)
 
-#define testLoop 10  // Numbers of iteration for performance evaluation
-
-
 inline __host__ __device__ void swap(float& a, float& b){
         float temp=a; a=b; b=temp;
 }
@@ -113,7 +110,7 @@ void bubble_host(float *r, float *a, int N){
         }
 }
 
-int get_array_length(char *filename){
+int get_array_length(std::string filename){
     std::ifstream fin;
     fin.open(filename);
     int count = 0;
@@ -125,7 +122,7 @@ int get_array_length(char *filename){
     return count;
 }
 
-void read_array(int N, float *arr, char *filename){
+void read_array(int N, float *arr, std::string filename){
     std::ifstream fin;
     fin.open(filename);
     for(int k=0; k<N; k++)
@@ -133,7 +130,7 @@ void read_array(int N, float *arr, char *filename){
     fin.close();
 }
 
-void write_array(int N, float *arr, char *filename){
+void write_array(int N, float *arr, std::string filename){
     std::ofstream fout;
     fout.open(filename);
     for(int k=0; k<N; k++)
@@ -171,7 +168,7 @@ int main(int argc, char **argv){
         // shared memory in GPU
         cudaEventRecord(start1, 0);
         bubble<<<1,BLOCK,(N+20)*sizeof(float)>>>(gc,ga,N);
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
         cudaEventRecord(stop1, 0);
 	    cudaEventSynchronize(stop1);
         cudaEventElapsedTime(&GPUTime1, start1, stop1);
@@ -179,7 +176,7 @@ int main(int argc, char **argv){
         // only global memory in GPU
         cudaEventRecord(start2, 0);
         bubble_global<<<1,BLOCK>>>(gd,ga,N);
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
         cudaEventRecord(stop2, 0);
 	    cudaEventSynchronize(stop2);
         cudaEventElapsedTime(&GPUTime2, start2, stop2);
