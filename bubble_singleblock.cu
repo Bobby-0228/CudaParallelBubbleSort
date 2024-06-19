@@ -19,16 +19,16 @@ inline __host__ __device__ void swap(float& a, float& b){
 __global__ void bubble(float *r, float *a, int N){
     //*** blockDim=N/2 ***
     int j=threadIdx.x;      //j=0,1,2,...blockDim-1 
-    int k=2*threadIdx.x;    //k=0,2,4,...2*(blockDim-1) 配對的基底索引
+    int k=2*threadIdx.x;    //k=0,2,4,...2*(blockDim-1)
 
-    //shared memory
+    //allocate shared memory
     extern __shared__ float s[];
 
     //load data to shared memory
-    __syncthreads();   //同步化執行緒, 加速載入速度 (合併讀取 coalesced)
-    s[j]=a[j];         //使用全部執行緒一起載入前半段 (0~N/2-1)
-    s[j+N/2]=a[j+N/2]; //使用全部執行緒一起載入後半段 (N/2~N-1)
-    if(j==0)           //若 N 為奇數時, 還要多載入一個尾巴, 只使用第 0 個執行緒
+    __syncthreads();   
+    s[j]=a[j];         //use all threads to load first half (0~N/2-1)
+    s[j+N/2]=a[j+N/2]; //use all threads to load second half (N/2~N-1)
+    if(j==0)           //if N is odd
         s[N-1]=a[N-1];
     
 
@@ -42,7 +42,7 @@ __global__ void bubble(float *r, float *a, int N){
         // sort 1 based
         __syncthreads();
         if(s[k+1]>s[k+2])
-            if(k<N-2) //若 N 為偶數時, 最後一個執行緒不作用
+            if(k<N-2) //if N is even
                 swap(s[k+1],s[k+2]);
         
     }
