@@ -13,12 +13,12 @@ fi
 array_filename=$1; golden_filename=$2;
 
 echo -n "Compiling bubble_multiblock.cu..."
-nvcc -c bubble_multiblock.cu -arch=sm_20
-g++ -o bubble_multiblock bubble_multiblock.o `OcelotConfig -l`
+nvcc -c bubble_multiblock.cu 
+g++ -o bubble_multiblock bubble_multiblock.o -L/usr/local/cuda/lib64 -lcudart
 echo "Done!"
 echo "----------------------------------------------"
 
-echo "Executing bubble_GPU..."
+echo "Executing bubble_multiblock..."
 ./bubble_multiblock $array_filename
 echo "----------------------------------------------"
 
