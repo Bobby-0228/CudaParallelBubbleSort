@@ -65,7 +65,7 @@ void bubble_host(float *r, float *a, int N) {
     }
 }
 
-int get_array_length(char *filename){
+int get_array_length(std::string filename){
     std::ifstream fin;
     fin.open(filename);
     int count = 0;
@@ -77,7 +77,7 @@ int get_array_length(char *filename){
     return count;
 }
 
-void read_array(int N, float *arr, char *filename){
+void read_array(int N, float *arr, std::string filename){
     std::ifstream fin;
     fin.open(filename);
     for(int k=0; k<N; k++)
@@ -85,7 +85,7 @@ void read_array(int N, float *arr, char *filename){
     fin.close();
 }
 
-void write_array(int N, float *arr, char *filename){
+void write_array(int N, float *arr, std::string filename){
     std::ofstream fout;
     fout.open(filename);
     for(int k=0; k<N; k++)
@@ -129,19 +129,19 @@ int main(int argc, char **argv) {
 
         cudaEventRecord(start1, 0);
         cudaMemcpy(gc, a, SIZE, cudaMemcpyHostToDevice);
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
 
         for (int g = 0; g < GRID; g++) {
             // process I : sort inner block
             bubble<<<GRID, BLOCK, (N + 10) * sizeof(float)>>>(gc, gc, N);
-            cudaThreadSynchronize();
+            cudaDeviceSynchronize();
 
             // process II : sort btw. blocks
             bubble<<<GRID - 1, BLOCK, (N + 10) * sizeof(float)>>>(gc + BLOCK, gc + BLOCK, N);
-            cudaThreadSynchronize();
+            cudaDeviceSynchronize();
         }
         cudaMemcpy(c, gc, SIZE, cudaMemcpyDeviceToHost);
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
         
         cudaEventRecord(stop1, 0);
 	    cudaEventSynchronize(stop1);
