@@ -1,0 +1,6 @@
+bubble_GPU_singleblock.o
+bubble_GPU_singleblock
+
+output_GPU_global_mem.txt
+output_GPU_shared_mem.txt
+output_CPU.txt
