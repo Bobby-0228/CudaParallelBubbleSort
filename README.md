@@ -40,7 +40,7 @@ sh run_multiblock.sh array1.txt golden1.txt
 ```
 
 ### Generating Arrays and Golden Files
-To generate array and golden files, use the `gen_array.py` script:
+To generate array and golden files, use `gen_array.py`:
 ```sh
 python gen_array.py data_number array_length
 ```
