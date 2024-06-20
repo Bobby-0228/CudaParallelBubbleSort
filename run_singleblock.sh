@@ -3,7 +3,7 @@
 ## Copyiright (C) KUO I_HSUAN, LIN KUN_YUAN 
 ## USAGE: User provides paths to the file of the array to be sorted and the golden file
 ## Script will compile and execute bubble_singleblock.cu and compare the resulting outputs with golden using the "diff" command
-## EXAMPLE: run.sh array1.txt golden1.txt 
+## EXAMPLE: run_singleblock.sh array1.txt golden1.txt 
 
 if [ $# -ne 2 ]; then
     echo "Usage: $0 array_filename golden_filename"
