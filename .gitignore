@@ -9,3 +9,4 @@ output_GPU_global_mem.txt
 output_GPU_shared_mem.txt
 
 .vscode
+kernel-times.json
