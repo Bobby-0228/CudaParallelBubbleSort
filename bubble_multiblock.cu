@@ -120,8 +120,8 @@ int main(int argc, char **argv) {
 
 
     for (int g = 0; g < num_grids; g++) {
-        int GRID = grids[g];
-        int BLOCK = N / (2 * GRID);
+        int GRID = grids[g]; // num. of blocks
+        int BLOCK = N / (2 * GRID); // num. of threads
 
         printf("----------------------------------\n");
         printf("N = %d, Block = %d, Thread = %d\n", N, GRID, BLOCK);
@@ -129,19 +129,19 @@ int main(int argc, char **argv) {
 
         cudaEventRecord(start1, 0);
         cudaMemcpy(gc, a, SIZE, cudaMemcpyHostToDevice);
-        cudaDeviceSynchronize();
+        cudaThreadSynchronize();
 
         for (int g = 0; g < GRID; g++) {
             // process I : sort inner block
             bubble<<<GRID, BLOCK, (N + 10) * sizeof(float)>>>(gc, gc, N);
-            cudaDeviceSynchronize();
+            cudaThreadSynchronize();
 
             // process II : sort btw. blocks
             bubble<<<GRID - 1, BLOCK, (N + 10) * sizeof(float)>>>(gc + BLOCK, gc + BLOCK, N);
-            cudaDeviceSynchronize();
+            cudaThreadSynchronize();
         }
         cudaMemcpy(c, gc, SIZE, cudaMemcpyDeviceToHost);
-        cudaDeviceSynchronize();
+        cudaThreadSynchronize();
         
         cudaEventRecord(stop1, 0);
 	    cudaEventSynchronize(stop1);
