@@ -22,7 +22,7 @@ echo "Executing bubble_multiblock..."
 ./bubble_multiblock $array_filename
 echo "----------------------------------------------"
 
-echo "Comparing outputs and golden..."
+echo "Comparing outputs and $golden_filename..."
 echo -n "GPU 2 multiblocks: "
 if diff $golden_filename multiblock_2.txt > /dev/null; then
     echo "pass"
