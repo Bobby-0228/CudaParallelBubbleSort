@@ -6,6 +6,10 @@ This project implements parallel bubble sort using CUDA.
 The project includes scripts to compile and execute the CUDA files for GPU using single block and multiple blocks configurations.
 The scripts also compare the output against golden files to validate the correctness.
 
+## Environment
+```
+nvcc version 12.1 
+```
 
 ## Files
 - **Input Arrays**: `array1.txt` to `array5.txt`
